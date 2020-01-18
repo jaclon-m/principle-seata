@@ -4,6 +4,7 @@
  */
 package com.jaclon.learning.tm.util;
 
+import com.jaclon.learning.tm.transactional.DistributeTransactionManager;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -20,15 +21,15 @@ import org.apache.http.util.EntityUtils;
  */
 public class HttpClientUtils {
 
-    /*public static String get(String url) {
+    public static String get(String url) {
         String result = "";
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("Content-type", "application/json");
-            httpGet.addHeader("groupId", LbTransactionManager.getCurrentGroupId());
-            httpGet.addHeader("transactionCount", String.valueOf(LbTransactionManager.getTransactionCount()));
+            httpGet.addHeader("groupId", DistributeTransactionManager.getCurrentGroupId());
+            httpGet.addHeader("transactionCount", String.valueOf(DistributeTransactionManager.getTransactionCount()));
             CloseableHttpResponse response = httpClient.execute(httpGet);
 
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -41,5 +42,5 @@ public class HttpClientUtils {
         }
 
         return result;
-    }*/
+    }
 }

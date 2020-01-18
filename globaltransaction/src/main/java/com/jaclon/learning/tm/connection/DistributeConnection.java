@@ -5,6 +5,7 @@
 package com.jaclon.learning.tm.connection;
 
 import com.jaclon.learning.tm.transactional.DistributeTransaction;
+import com.jaclon.learning.tm.transactional.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -29,12 +30,32 @@ public class DistributeConnection implements Connection {
 
     @Override
     public void commit() throws SQLException {
-
+        new Thread(() -> {
+            try {
+                distributeTransaction.getTask().waitTask();
+                if(distributeTransaction.getTransactionType().equals(TransactionType.rollback)){
+                    connection.rollback();
+                }else {
+                    connection.commit();
+                }
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
     public void rollback() throws SQLException {
-
+        new Thread(() -> {
+            try {
+                distributeTransaction.getTask().waitTask();
+                connection.rollback();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override

@@ -87,8 +87,11 @@ public class DistributeTransactionManager {
         currentGroupId.set(groupId);
     }
 
-    public static ThreadLocal<Integer> getTransactionCount() {
-        return transactionCount;
+    public static Integer getTransactionCount() {
+        return transactionCount.get();
+    }
+    public static void setTransactionCount(int i){
+        transactionCount.set(i);
     }
 
     public static Integer addTransactionCount() {
